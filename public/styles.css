@@ -1,59 +1,71 @@
-/* General Reset */
-* {
+/* General Body Styles */
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body Styling */
-body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-/* Header Styling */
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
     text-align: center;
-}
-
-header h1 {
-    margin: 0;
-}
-
-/* Navigation Styling */
-nav ul {
-    list-style-type: none;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 10px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-/* Main Content Styling */
-main {
-    padding: 20px;
-    text-align: center;
-}
-
-h2 {
-    color: #333;
-}
-
-/* Footer Styling */
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-}
+    background-color: #87ceeb; /* Sky blue background */
+  }
+  
+  h1 {
+    font-size: 36px;
+    color: #fff;
+    margin-top: 20px;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #fff;
+    margin-top: 10px;
+  }
+  
+  /* Canvas Styles */
+  canvas {
+    display: block;
+    margin: 20px auto;
+    border: 2px solid #fff; /* White border for the canvas */
+    background-color: #87ceeb; /* Sky blue canvas background */
+  }
+  
+  /* Score and Game Over Text */
+  .game-over-text {
+    font-size: 30px;
+    color: #ff0000; /* Red color for Game Over */
+  }
+  
+  .score {
+    font-size: 20px;
+    color: #000000; /* Black text for score */
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  .best-score {
+    font-size: 20px;
+    color: #000000; /* Black text for best score */
+    position: absolute;
+    top: 40px;
+    left: 20px;
+  }
+  
+  /* Button Styles (Optional, if you want to add buttons) */
+  button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 30px;
+    background-color: #28a745; /* Green button */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  button:focus {
+    outline: none; /* Remove focus outline */
+  }
+  
