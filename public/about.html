@@ -1,28 +1,158 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Dangerous Skies</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dangerous Skies</title>
+  <style>
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background-color: skyblue;
+    }
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>About Dangerous Skies</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <h2>Our Story</h2>
-        <p>Dangerous Skies is an exciting flight adventure game.</p>
-    </main>
-    <footer>
-        <p>&copy; 2024 Dangerous Skies. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+  <h1>Dangerous Skies</h1>
+  <canvas id="gameCanvas" width="1000" height="400"></canvas>
+  <p>Press Space to fly!</p>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Game variables
+    let plane = { x: 50, y: 320, width: 58, height: 64 };
+    let obstacles = [];
+    let groundObstacles = [];
+    let fireballs = [];
+    let score = 0;
+    let bestScore = 0;
+    let gameOver = false;
+    let yMovement = 0;
+    const gravity = 1;
+
+    // Load images
+    const planeImg = new Image();
+    planeImg.src = './images/flying-airplane.gif';
+    const birdImg = new Image();
+    birdImg.src = './images/bird.gif';
+    const fireballImg = new Image();
+    fireballImg.src = './images/fireball.png';
+
+    // Main game loop
+    function gameLoop() {
+      if (!gameOver) {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+      } else {
+        ctx.fillStyle = 'black';
+        ctx.font = '30px Arial';
+        ctx.fillText(`Game Over! Score: ${score}`, 400, 200);
+        ctx.fillText('Press Space to Restart!', 370, 240);
+      }
+    }
+
+    // Update game state
+    function update() {
+      yMovement += gravity;
+      plane.y += yMovement;
+      plane.y = Math.min(320, Math.max(0, plane.y)); // Keep plane within bounds
+
+      // Move obstacles
+      obstacles.forEach(obstacle => obstacle.x -= 8);
+      groundObstacles.forEach(obstacle => obstacle.x -= 8);
+      fireballs.forEach(fireball => {
+        fireball.x -= 4;
+        fireball.y += 2;
+      });
+
+      // Check collisions
+      [...obstacles, ...groundObstacles, ...fireballs].forEach(obstacle => {
+        if (collision(plane, obstacle)) {
+          gameOver = true;
+        }
+      });
+
+      // Remove off-screen obstacles
+      obstacles = obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
+      groundObstacles = groundObstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
+      fireballs = fireballs.filter(fireball => fireball.x + fireball.width > 0);
+
+      // Increment score
+      score++;
+      if (score > bestScore) bestScore = score;
+    }
+
+    // Draw everything
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(planeImg, plane.x, plane.y, plane.width, plane.height);
+
+      obstacles.forEach(obstacle => {
+        ctx.drawImage(birdImg, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+      });
+
+      fireballs.forEach(fireball => {
+        ctx.drawImage(fireballImg, fireball.x, fireball.y, fireball.width, fireball.height);
+      });
+
+      // Draw score
+      ctx.fillStyle = 'black';
+      ctx.font = '20px Arial';
+      ctx.fillText(`Score: ${score}`, 10, 20);
+      ctx.fillText(`Best: ${bestScore}`, 10, 40);
+    }
+
+    // Check for collisions
+    function collision(a, b) {
+      return (
+        a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y
+      );
+    }
+
+    // Add obstacles
+    function addObstacle() {
+      const bird = { x: canvas.width, y: Math.random() * 300, width: 60, height: 20 };
+      obstacles.push(bird);
+    }
+
+    // Restart the game
+    function restartGame() {
+      gameOver = false;
+      plane.y = 320;
+      yMovement = 0;
+      obstacles = [];
+      groundObstacles = [];
+      fireballs = [];
+      score = 0;
+      gameLoop();
+    }
+
+    // Event listeners
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space') {
+        if (gameOver) {
+          restartGame();
+        } else {
+          yMovement = -7;
+        }
+      }
+    });
+
+    // Spawn obstacles every 2 seconds
+    setInterval(addObstacle, 2000);
+
+    // Start the game
+    gameLoop();
+  </script>
 </body>
 </html>

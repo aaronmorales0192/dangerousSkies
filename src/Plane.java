@@ -1,4 +1,4 @@
-import java.awt.*;
+ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -150,7 +150,7 @@ public class Plane extends JPanel implements ActionListener, KeyListener {
             return;        
         }
         double chance = Math.random();
-        if (score > 1680 && score < 1770 && chance > .00){
+        if (score > 1660 && score < 1760 && chance > .00){
             Block fireball = new Block (random.nextInt(500)+30, 0 , fireballWidth, fireballHeight, fireballImage);
             fireballs.add(fireball);
         }
